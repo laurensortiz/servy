@@ -7,11 +7,11 @@ defmodule Servy.Handler do
   end
 
   def parse(request) do
-    # TODO: Parse the request string into a map
-    first_line = request
+    [method, path, _] =
+      request
       |> String.split("\n")
       |> List.first
-    [method, path, _] = first_line
+      |> Stirng.split(" ")
 
     %{ method: method, path: path, resp_body: "" }
   end
