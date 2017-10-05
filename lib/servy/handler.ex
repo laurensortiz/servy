@@ -5,8 +5,16 @@ defmodule Servy.Handler do
     |> rewrite_path
     |> log
     |> route
+    |> track
     |> format_response
   end
+
+  def track(%{ status: 404, path: path } = conv) do
+    IO.puts "Oops this route doesn't exist! #{path}"
+    conv
+  end
+
+  def track(conv), do: conv
 
   def rewrite_path(%{ path: "/wildlife" } = conv) do
     %{ conv | path: "/wildthings" }
@@ -85,7 +93,7 @@ Accept: */*
 """
 
 request_delete = """
-DELETE /bears/1 HTTP/1.1
+DELETE /besars/1 HTTP/1.1
 Host: example.com
 User-Agent: ExampleBrowser/1.0
 Accept: */*
